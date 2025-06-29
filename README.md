@@ -1,116 +1,76 @@
-# 📧 Email Spam Detection — BERT Model Trainer
+#  Email Spam Detection System – Frontend (Next.js + TailwindCSS)
 
-This repository contains a Python script (`train.py`) that fine-tunes the [BERT (base-uncased)](https://huggingface.co/bert-base-uncased) model to classify email subjects as **spam** or **ham** using a labeled dataset in Excel format.
-
----
-
-## 📁 Project Structure
-
-├── data/
-│ └── Email-DataSet.xlsx # Input Excel dataset with 'Subject' and 'Spam/Ham' columns
-├── model/ # Output directory for the saved model and tokenizer
-├── logs/ # Logs from the training process
-├── results/ # Evaluation and checkpoint results
-└── train.py # Main script to train the model
+This is the **frontend application** for an AI-powered email spam detection system. It analyzes the subject line of email content using a **BERT model** served through a **FastAPI backend**, and delivers real-time predictions with rich UI feedback.
 
 ---
 
- What It Does
+##  Features
 
-- Loads and cleans a labeled email dataset (`Spam` / `Ham`)
-- Tokenizes subjects using BERT tokenizer
-- Trains a `BertForSequenceClassification` model using Hugging Face's `Trainer`
-- Evaluates and saves the best-performing model
+ Paste full email content; subject is auto-extracted
+ Uses AI to detect spam/ham with confidence score
+ Real-time response with average latency < 1s
+ Modern animated UI using TailwindCSS, Lucide, and custom components
+ Displays risk levels, confidence percentage, and reasons for classification
+
+---
+
+Tech Stack
+
+| Layer         | Technology                  |
+|---------------|-----------------------------|
+| Frontend      | Next.js (React)             |
+| UI Framework  | TailwindCSS                 |
+| Icons         | [Lucide React](https://lucide.dev/icons) |
+| Backend API   | FastAPI (Python)            |
+| Model         | Fine-tuned BERT             |
+
+---
 
 
 
-Dependencies
+##  Local Setup
 
-Make sure you have the following Python libraries installed:
+### 1. Clone the repository:
+
+```bash
+git clone https://github.com/your-username/email-spam-frontend.git
+cd email-spam-frontend
+2. Install dependencies:
+Using pnpm:
 
 
-pip install pandas scikit-learn torch transformers openpyxl
+pnpm install
+Or using npm:
 
-How to Run
-Place your Excel dataset in the ./data folder
 
-Required columns: "Subject" and "Spam/Ham" (labels must be "spam" or "ham")
+npm install
+3. Run development server:
 
-Run the script:
+pnpm dev
+# or
+npm run dev
+Then open http://localhost:3000
 
-bash
+ Backend API Connection
+This frontend is connected to the backend at:
+
+
+http://127.0.0.1:8000/predict
+Make sure to run your FastAPI backend server before using this app.
+
+Expected API Input:
+
+json
 Copy
 Edit
-python train.py
-Model and tokenizer will be saved in the ./model directory after training.
-
- Training Details
-Model Used: BERT-base-uncased (from Hugging Face)
-
-Epochs: 2 (modifiable)
-
-Batch Size: 16
-
-Evaluation Strategy: Per epoch
-
-Token Limit: 64 tokens max per subject
-
-GPU Support: Yes (automatically used if available)
-
- Output
-After successful training:
-
-Trained BERT model files (pytorch_model.bin, config.json, etc.)
-
-How to Run
-Place your Excel dataset in the ./data folder
-
-Required columns: "Subject" and "Spam/Ham" (labels must be "spam" or "ham")
-
-Run the script:
-
-bash
-Copy
-Edit
-python train.py
-Model and tokenizer will be saved in the ./model directory after training.
-
-📊 Training Details
-Model Used: BERT-base-uncased (from Hugging Face)
-
-Epochs: 2 (modifiable)
-
-Batch Size: 16
-
-Evaluation Strategy: Per epoch
-
-Token Limit: 64 tokens max per subject
-
-GPU Support: Yes (automatically used if available)
-
-📁 Output
-After successful training:
-
-Trained BERT model files (pytorch_model.bin, config.json, etc.)
-
-Tokenizer files (vocab.txt, tokenizer_config.json, etc.)
-
-These are saved in the /model folder and can be loaded later for inference or API integration.
-
- Example Dataset Format
-Subject	Spam/Ham
-"You’ve won a free iPhone!"	spam
-"Project update meeting at 3pm"	ham
+{
+  "subject": "Your subject line here"
+}
+Expected API Response:
 
 
-
-Tokenizer files (vocab.txt, tokenizer_config.json, etc.)
-
-These are saved in the /model folder and can be loaded later for inference or API integration.
-
- Example Dataset Format
-Subject	Spam/Ham
-"You’ve won a free iPhone!"	spam
-"Project update meeting at 3pm"	ham
-
-
+{
+  "subject": "Your subject",
+  "prediction": "spam",
+  "confidence": 0.93
+}
